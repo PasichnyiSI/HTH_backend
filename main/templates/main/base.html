@@ -1,0 +1,171 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+    
+    {% comment %} bootstrap {% endcomment %}
+    <link rel="stylesheet" href="{% static 'bootstrap\css\bootstrap.min.css' %}">
+    
+    {% comment %} css {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+</head>
+<body>
+    <div class="above-header">
+        <div class="above-header-container d-flex">
+            <p>БАНЕР РЕКЛАМИ</p>
+        </div>
+    </div>
+    <header class="header">
+        <div class="header-container">
+            <div class="burger_box">
+                <div class="menu-icon-container">
+                    <a href="#" class="menu-icon js-menu_toggle closed">
+                        <span class="menu-icon_box">
+                        <span class="menu-icon_line menu-icon_line--1"></span>
+                        <span class="menu-icon_line menu-icon_line--2"></span>                                <span class="menu-icon_line menu-icon_line--3"></span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="header-logo">
+                <a href="/"><img src="{% static 'img/21312.png' %}" alt="" class="hth_logo"></a>
+            </div>
+            <div class="catalogue-container">
+                <li class="dropdown">
+                    <a href="#">Каталог <i class="fa-solid fa-chevron-down"></i></a>
+                    <div class="mega-menu d-flex">
+                        <div class="mega-menu-container d-flex">
+                            <div class="item">
+                                <ul>
+                                    <span>HOME PAGE</span>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Дивитись більше..</a></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <ul>
+                                    <span>HOME PAGE</span>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Дивитись більше..</a></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <ul>
+                                    <span>HOME PAGE</span>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Дивитись більше..</a></li>
+                                </ul>
+                            </div>
+                            <div class="item">
+                                <ul>
+                                    <span>HOME PAGE</span>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Home page</a></li>
+                                    <li><a href="#">Дивитись більше..</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </div>
+            <div class="header-search-bar">
+                <input type="text" placeholder="Пошук">
+                <button class="header-search-bar-btn">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+            <div class="header-btn">
+                <navbar class="header-nav-btn pt-4">
+                    <ul class="header-nav-btn-list d-flex">
+                        <li>
+                            <a href="/" class="nav-a m-3">
+                                <i class="fa-solid fa-heart"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-a m-3">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-a m-3">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-a m-3">
+                                <i class="fa-solid fa-user"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </navbar>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+    <div class="side_menu">
+        <div class="container_menu">
+            <div class="header-container-side-menu">
+                <div class="header-side-menu-logo">
+                    <a href="/"><img src="{% static 'img/21312.png' %}" alt="" class="hth_logo"></a>
+                </div>
+                <div class="burger_box_opened">
+                    <div class="menu-icon-container-opened">
+                        <a href="#" class="menu-icon js-menu_toggle opened">
+                            <span class="menu-icon_box">
+                            <span class="menu-icon_line menu-icon_line--1"></span>
+                            <span class="menu-icon_line menu-icon_line--2"></span>                                <span class="menu-icon_line menu-icon_line--3"></span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <ul class="list_load">
+                <li class="list_item"><a href="#">List Item 01</a></li>
+                <li class="list_item"><a href="#">List Item 02</a></li>
+                <li class="list_item"><a href="#">List Item 03</a></li>
+                <li class="list_item"><a href="#">List Item 04</a></li>
+                <li class="list_item"><a href="#">List Item 05</a></li>
+                <li class="list_item"><a href="#">List Item 06</a></li>
+                <li class="list_item"><a href="#">List Item 07</a></li>
+                <li class="list_item"><a href="#">List Item 08</a></li>
+            </ul>
+            <div class="spacer_box"><p>This is a spacer box.</p></div>
+        </div>
+    </div>
+
+    {% comment %} js for bootstrap {% endcomment %}
+    <script src="{% static 'bootstrap\js\bootstrap.bundle.min.js' %}"></script>
+
+    {% comment %} jquery {% endcomment %}
+    <script src="{% static 'js/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

@@ -8,6 +8,25 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'
+    def get_queryset(self):
+        queryset = self.queryset
+        category_slug = self.request.query_params.get('category', None)
+        if category_slug:
+            queryset = queryset.filter(category__slug=category_slug)
+
+        # Фільтрація за мінімальною ціною
+        min_price = self.request.query_params.get('minPrice', None)
+        if min_price:
+            queryset = queryset.filter(price_per_sq_m__gte=min_price)
+
+        # Фільтрація за максимальною ціною
+        max_price = self.request.query_params.get('maxPrice', None)
+        if max_price:
+            queryset = queryset.filter(price_per_sq_m__lte=max_price)
+
+        return queryset
+
+
     
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()

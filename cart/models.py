@@ -1,4 +1,3 @@
-# cart/models.py
 from django.db import models
 from main.models import Product
 from size.models import Size
@@ -9,7 +8,7 @@ class Cart(models.Model):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"Cart for {self.user}"
+        return f"Кошик для {self.user}"
 
     @property
     def items(self):

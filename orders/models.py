@@ -4,16 +4,24 @@ from size.models import Size
 from django.contrib.auth import get_user_model
 
 class Order(models.Model):
+
+    STATUS_CHOICES = [
+        ('pending', 'Очікує підтвердження'),
+        ('processing', 'В обробці'),
+        ('completed', 'Завершено'),
+        ('canceled', 'Скасовано'),
+    ]
+
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(
-        max_length=20,
-        choices=[('pending', 'Очікує'), ('completed', 'Завершене')],
-        default='pending'
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    total_price = models.DecimalField(max_digits=10, decimal_places=0, null=False)
+
+
+
 
     def __str__(self):
-        return f"Order {self.id} - {self.user.username}"
+        return f"Замовлення {self.id} - {self.user.username} ({self.status})"
     
     @property
     def items(self):
@@ -27,6 +35,6 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"{self.quantity} x {self.product.name}"
+        return f"{self.product.name} х {self.quantity}"
 
 

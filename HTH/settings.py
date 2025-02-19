@@ -128,10 +128,11 @@ CORS_ALLOWED_ORIGINS = [
     "https://hth-frontend.onrender.com",  # Дозволяє розгорнутий фронтенд
 ]
 
-# CSRF_TRUSTED_ORIGINS = [
-#     "http://localhost:3000",
-#     "https://hth-frontend.onrender.com",
-# ]
+CSRF_TRUSTED_ORIGINS = [
+
+    "https://hth-frontend.onrender.com",
+]
+
 
 ROOT_URLCONF = 'HTH.urls'
 

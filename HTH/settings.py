@@ -31,6 +31,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["hth-backend-tks7.onrender.com",
                  "localhost",
+                 "127.0.0.1",
                  ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -199,6 +200,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -225,5 +227,3 @@ DEFAULT_FROM_EMAIL = 'pasichnyi.s.i@gmail.com'  # Ваша email-адреса д
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "sessionid"
 
-print(dj_database_url.config(default=os.getenv("DATABASE_URL")))
-print(os.getenv("DATABASE_URL"))  # Перевірка, чи виводиться значення змінної

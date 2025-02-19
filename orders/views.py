@@ -11,6 +11,7 @@ def send_order_confirmation(order):
     subject = f"Нове замовлення #{order.id}"
     message = f"Замовлення від користувача: {order.user.username}. Загальна сума: {order.total_price}."
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [order.email])
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -20,6 +21,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         user = request.user
+        email = request.data.get('email')
+
+        if not email:
+            return Response({'error': 'Email є обов\'язковим.'}, status=status.HTTP_400_BAD_REQUEST)
         # Знаходимо активну корзину користувача
         try:
             cart = Cart.objects.get(user=user, is_active=True)
@@ -38,7 +43,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         )
 
         # Створюємо замовлення
-        order = Order.objects.create(user=user, total_price=total_price)
+        order = Order.objects.create(user=user, email=email, total_price=total_price)
 
         # Додаємо елементи до замовлення
         for item in cart_items:

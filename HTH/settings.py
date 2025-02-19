@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-fqm3n162#&615v^rgfgvr0jq63k#3b&x-fh3avd%(@859a5zzc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = False
 
 
 ALLOWED_HOSTS = ["hth-backend-tks7.onrender.com",
@@ -158,7 +158,7 @@ WSGI_APPLICATION = 'HTH.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("postgresql://hth_user:jML9ZF4sCVVMjJI4PqMleHt7PAwu8CgC@dpg-cuqruf3v2p9s73fipda0-a/hth"))
+    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
 
 # Password validation

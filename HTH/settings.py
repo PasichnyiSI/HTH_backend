@@ -161,6 +161,8 @@ DATABASES = {
     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
 
+# set DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/HTH 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -222,3 +224,6 @@ DEFAULT_FROM_EMAIL = 'pasichnyi.s.i@gmail.com'  # Ваша email-адреса д
 # Ensure session cookies are set up properly
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "sessionid"
+
+print(dj_database_url.config(default=os.getenv("DATABASE_URL")))
+print(os.getenv("DATABASE_URL"))  # Перевірка, чи виводиться значення змінної

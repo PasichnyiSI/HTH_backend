@@ -159,8 +159,20 @@ WSGI_APPLICATION = 'HTH.wsgi.application'
 # }
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'hth',  # Назва бази даних
+        'USER': 'hth_user',  # Ваш користувач
+        'PASSWORD': 'jML9ZF4sCVVMjJI4PqMleHt7PAwu8CgC',  # Ваш пароль
+        'HOST': 'dpg-cuqruf3v2p9s73fipda0-a.frankfurt-postgres.render.com',  # Хост
+        'PORT': '5432',  # Порт
+    }
 }
+
+
+# DATABASES = {
+#     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+# }
 
 # set DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/HTH 
 

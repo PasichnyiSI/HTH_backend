@@ -30,7 +30,7 @@ DEBUG = False
 
 
 ALLOWED_HOSTS = ["hth-backend-tks7.onrender.com",
-                 "127.0.0.1",
+                 "localhost",
                  ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -218,3 +218,7 @@ EMAIL_HOST_USER = 'pasichnyi.s.i@gmail.com'
 EMAIL_HOST_PASSWORD = 'bkmj faiv nbif wywu'
 
 DEFAULT_FROM_EMAIL = 'pasichnyi.s.i@gmail.com'  # Ваша email-адреса для відправки email
+
+# Ensure session cookies are set up properly
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+SESSION_COOKIE_NAME = "sessionid"

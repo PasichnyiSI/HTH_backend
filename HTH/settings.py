@@ -121,7 +121,17 @@ SIMPLE_JWT = {
 }
 
 
-CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Дозволяє локальний фронтенд
+    "https://hth-frontend.onrender.com",  # Дозволяє розгорнутий фронтенд
+]
+
+# CSRF_TRUSTED_ORIGINS = [
+#     "http://localhost:3000",
+#     "https://hth-frontend.onrender.com",
+# ]
 
 ROOT_URLCONF = 'HTH.urls'
 

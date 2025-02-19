@@ -29,7 +29,14 @@ SECRET_KEY = 'django-insecure-fqm3n162#&615v^rgfgvr0jq63k#3b&x-fh3avd%(@859a5zzc
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = ['hth.onrender.com']
+ALLOWED_HOSTS = ["hth-backend-tks7.onrender.com",
+                 "127.0.0.1",
+                 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://hth-backend-tks7.onrender.com",
+]
+
 
 
 # Application definition

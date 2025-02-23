@@ -1,11 +1,13 @@
 from django.db import models
+from django.utils.text import slugify
 from django.urls import reverse
+from cloudinary.models import CloudinaryField
 from django.db.models import Avg, Count
 
 class Category(models.Model):
     name = models.CharField(max_length=20, unique=True)
     slug = models.SlugField(max_length=20, unique=True)
-    image = models.ImageField(upload_to='categories/%Y/%m/%d', blank=True)
+    image = CloudinaryField('image', null=True, blank=True, folder='categories/', use_filename=True)
 
     class Meta:
         ordering = ['name']
@@ -22,8 +24,8 @@ class Category(models.Model):
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50, unique=True)
-    image = models.ImageField(upload_to='products/%Y/%m/%d', blank=True)
+    slug = models.SlugField(max_length=50, unique=True, blank=True)
+    image = CloudinaryField('image', null=True, blank=True, folder='products/', use_filename=True)
     description = models.TextField(blank=True)
     price_per_sq_m = models.DecimalField(max_digits=10, decimal_places=2, help_text="Ціна за 1 м²")
     available = models.BooleanField(default=True)
@@ -57,9 +59,8 @@ class Product(models.Model):
         
         self.save(update_fields=["average_rating", "rating_count"])  # Оновлюємо тільки ці поля
 
-    def __str__(self):
-        return self.name
-
     def get_absolute_url(self):
         return reverse('main:product_detail', args=[self.slug])
-    
+  
+    def __str__(self):
+        return self.name

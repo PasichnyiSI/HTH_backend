@@ -12,9 +12,15 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
-import dj_database_url
 import os
+from dotenv import load_dotenv
+import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,20 +29,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-fqm3n162#&615v^rgfgvr0jq63k#3b&x-fh3avd%(@859a5zzc'
+SECRET_KEY = os.getenv("SECRET_KEY", "your-default-secret-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 
-ALLOWED_HOSTS = ["hth-backend-tks7.onrender.com",
-                 "localhost",
-                 "127.0.0.1",
-                 ]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://hth-backend-tks7.onrender.com",
-]
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
 
 
 
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main',
+    'main.apps.MainConfig',
     'cart',
     'users',
     'size',
@@ -63,6 +64,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -121,18 +124,9 @@ SIMPLE_JWT = {
 }
 
 
-# CORS_ALLOW_ALL_ORIGINS = True
+# CORS
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Дозволяє локальний фронтенд
-    "https://hth-frontend.onrender.com",  # Дозволяє розгорнутий фронтенд
-]
-
-CSRF_TRUSTED_ORIGINS = [
-
-    "https://hth-frontend.onrender.com",
-]
-
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
 
 ROOT_URLCONF = 'HTH.urls'
 
@@ -158,35 +152,22 @@ WSGI_APPLICATION = 'HTH.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "HTH",
-#         "USER": "postgres",
-#         "PASSWORD": "1234",
-#         "HOST": "127.0.0.1",
-#         "PORT": "5432",
-#     }
-# }
+DATABASES = {}
 
-DATABASES = {
-    'default': {
+# Перевірка, чи ми працюємо в продакшн або локальному середовищі
+if os.getenv('DJANGO_ENV') == 'production':
+    # Якщо в продакшн середовищі, використовуємо DATABASE_URL
+    DATABASES['default'] = dj_database_url.config(default=os.getenv('DATABASE_URL'))
+else:
+    # Локальна база даних
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hth',  # Назва бази даних
-        'USER': 'hth_user',  # Ваш користувач
-        'PASSWORD': 'jML9ZF4sCVVMjJI4PqMleHt7PAwu8CgC',  # Ваш пароль
-        'HOST': 'dpg-cuqruf3v2p9s73fipda0-a.frankfurt-postgres.render.com',  # Хост
-        'PORT': '5432',  # Порт
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
-}
-
-
-# DATABASES = {
-#     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
-# }
-
-# set DATABASE_URL=postgresql://postgres:1234@127.0.0.1:5432/HTH 
-
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -230,9 +211,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
 AUTH_USER_MODEL = 'users.User'
 
 ADMIN_EMAIL = 'pasichnyi.s.i@gmail.com'  # Вкажіть свою email-адресу
@@ -241,12 +219,26 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'pasichnyi.s.i@gmail.com'
-EMAIL_HOST_PASSWORD = 'bkmj faiv nbif wywu'
-
-DEFAULT_FROM_EMAIL = 'pasichnyi.s.i@gmail.com'  # Ваша email-адреса для відправки email
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("EMAIL_HOST_USER")
 
 # Ensure session cookies are set up properly
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 SESSION_COOKIE_NAME = "sessionid"
 
+
+# CLOUDINARY_STORAGE = {
+#     'CLOUD_NAME': os.getenv("CLOUD_NAME"),
+#     'API_KEY': os.getenv("CLOUD_API_KEY"),
+#     'API_SECRET': os.getenv("CLOUD_API_SECRET"),
+# }
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUD_NAME"),
+    api_key=os.getenv("CLOUD_API_KEY"),
+    api_secret=os.getenv("CLOUD_API_SECRET"),
+    secure = True
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

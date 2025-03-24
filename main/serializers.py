@@ -8,6 +8,10 @@ class ProductSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField()
     sizes = ProductSizeSerializer(many=True, read_only=True)
     average_rating = serializers.DecimalField(max_digits=3, decimal_places=1, read_only=True)
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
 
     class Meta:
         model = Product
@@ -16,21 +20,38 @@ class ProductSerializer(serializers.ModelSerializer):
         
 class CategorySerializer(serializers.HyperlinkedModelSerializer):
     products = ProductSerializer(many=True, read_only=True)
+    image = serializers.SerializerMethodField()
+    
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
     class Meta:
         model = Category
         fields = ['id', 'name', 'slug', 'image', 'products']
 
 class PopularProductsSerializer(serializers.HyperlinkedModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
+
     class Meta:
         model = Product
         fields = [ 'id', 'name', 'slug', 'image', 'description', 'price_per_sq_m', 'available', 'discount', 'popular']
 
 class NoveltiesProductsSerializer(serializers.HyperlinkedModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
     class Meta:
         model = Product
         fields = [ 'id', 'name', 'slug', 'image', 'description', 'price_per_sq_m', 'available', 'discount', 'novelties']
 
 class BestProductsSerializer(serializers.HyperlinkedModelSerializer):
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, obj):
+        return obj.image.url if obj.image else None
     class Meta:
         model = Product
         fields = [ 'id', 'name', 'slug', 'image', 'description', 'price_per_sq_m', 'available', 'discount', 'best']

@@ -1,5 +1,6 @@
 from .models import Product, Category
 from rest_framework import viewsets
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from .serializers import ProductSerializer, CategorySerializer, PopularProductsSerializer, NoveltiesProductsSerializer, BestProductsSerializer
 
@@ -8,6 +9,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'slug'
+    parser_classes = [MultiPartParser]
+
     def get_queryset(self):
         queryset = self.queryset
         category_slug = self.request.query_params.get('category', None)
@@ -31,22 +34,28 @@ class ProductViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    parser_classes = [MultiPartParser]
 
 class PopularProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(available=True, popular=True)
     serializer_class = PopularProductsSerializer
+    parser_classes = [MultiPartParser]
 
 class NoveltiesProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(available=True, novelties=True)
     serializer_class = NoveltiesProductsSerializer
+    parser_classes = [MultiPartParser]
 
 class BestProductsViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.filter(available=True, best=True)
     serializer_class = BestProductsSerializer
+    parser_classes = [MultiPartParser]
 
 class CategoryDetailView(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    parser_classes = [MultiPartParser]
+    
     def list(self, request, *args, **kwargs):
         categories = self.get_queryset()
         serializer = self.get_serializer(categories, many=True)
